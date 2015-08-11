@@ -1,0 +1,31 @@
+kernel/fs/configfs/configfs.ko:
+kernel/crypto/af_alg.ko:
+kernel/crypto/algif_hash.ko: kernel/crypto/af_alg.ko
+kernel/crypto/algif_skcipher.ko: kernel/crypto/af_alg.ko
+kernel/drivers/pwm/pwm-atmel.ko:
+kernel/drivers/pwm/pwm-atmel-tcb.ko:
+kernel/drivers/misc/eeprom/eeprom_93cx6.ko:
+kernel/drivers/net/wireless/ti/wlcore/wlcore.ko:
+kernel/drivers/net/wireless/ti/wlcore/wlcore_sdio.ko:
+kernel/drivers/net/wireless/ti/wl18xx/wl18xx.ko: kernel/drivers/net/wireless/ti/wlcore/wlcore.ko
+kernel/drivers/net/wireless/rtl818x/rtl8187/rtl8187.ko: kernel/drivers/misc/eeprom/eeprom_93cx6.ko
+kernel/drivers/net/wireless/libertas_tf/libertas_tf.ko:
+kernel/drivers/net/wireless/libertas_tf/libertas_tf_usb.ko: kernel/drivers/net/wireless/libertas_tf/libertas_tf.ko
+kernel/drivers/net/wireless/rt2x00/rt2x00lib.ko:
+kernel/drivers/net/wireless/rt2x00/rt2x00usb.ko: kernel/drivers/net/wireless/rt2x00/rt2x00lib.ko
+kernel/drivers/net/wireless/rt2x00/rt2800lib.ko: kernel/lib/crc-ccitt.ko kernel/drivers/net/wireless/rt2x00/rt2x00lib.ko
+kernel/drivers/net/wireless/rt2x00/rt2500usb.ko: kernel/drivers/net/wireless/rt2x00/rt2x00usb.ko kernel/drivers/net/wireless/rt2x00/rt2x00lib.ko
+kernel/drivers/net/wireless/rt2x00/rt73usb.ko: kernel/lib/crc-itu-t.ko kernel/drivers/net/wireless/rt2x00/rt2x00usb.ko kernel/drivers/net/wireless/rt2x00/rt2x00lib.ko
+kernel/drivers/net/wireless/rt2x00/rt2800usb.ko: kernel/drivers/net/wireless/rt2x00/rt2800lib.ko kernel/lib/crc-ccitt.ko kernel/drivers/net/wireless/rt2x00/rt2x00usb.ko kernel/drivers/net/wireless/rt2x00/rt2x00lib.ko
+kernel/drivers/net/wireless/mwifiex/mwifiex.ko:
+kernel/drivers/net/wireless/mwifiex/mwifiex_sdio.ko: kernel/drivers/net/wireless/mwifiex/mwifiex.ko
+kernel/drivers/net/wireless/mwifiex/mwifiex_usb.ko: kernel/drivers/net/wireless/mwifiex/mwifiex.ko
+kernel/drivers/usb/gadget/libcomposite.ko: kernel/fs/configfs/configfs.ko
+kernel/drivers/usb/gadget/usb_f_acm.ko: kernel/drivers/usb/gadget/libcomposite.ko kernel/fs/configfs/configfs.ko kernel/drivers/usb/gadget/u_serial.ko
+kernel/drivers/usb/gadget/u_serial.ko:
+kernel/drivers/usb/gadget/usb_f_serial.ko: kernel/drivers/usb/gadget/libcomposite.ko kernel/fs/configfs/configfs.ko kernel/drivers/usb/gadget/u_serial.ko
+kernel/drivers/usb/gadget/usb_f_obex.ko: kernel/drivers/usb/gadget/libcomposite.ko kernel/fs/configfs/configfs.ko kernel/drivers/usb/gadget/u_serial.ko
+kernel/drivers/usb/gadget/g_serial.ko: kernel/drivers/usb/gadget/libcomposite.ko kernel/fs/configfs/configfs.ko
+kernel/drivers/ssb/ssb.ko:
+kernel/lib/crc-ccitt.ko:
+kernel/lib/crc-itu-t.ko:
