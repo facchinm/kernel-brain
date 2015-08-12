@@ -32,6 +32,21 @@
 		};
 	};
 
+    wlan_en_reg: fixedregulator@2 {
+        compatible = "regulator-fixed";
+        regulator-name = "wlan-en-regulator";
+        regulator-min-microvolt = <1800000>;
+        regulator-max-microvolt = <1800000>;
+
+        /* WLAN_EN GPIO for this board */
+        //gpio = <&wl_en GPIO_ACTIVE_LOW>;
+		gpio = <&pioE 28 0>;
+
+        /* WLAN card specific delay */
+        startup-delay-us = <70000>;
+        enable-active-high;
+    };
+
 	ahb {
 		apb {
 			mmc0: mmc@f0000000 {
@@ -48,10 +63,25 @@
 				// wilink
 				pinctrl-names = "default";
 				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
-				status = "ok";
-				slot@0 {
+				status = "okay";
+				vmmc-supply = <&wlan_en_reg>;
+                slot@0 {
 					reg = <0>;
 					bus-width = <4>;
+					#address-cells = <1>;
+					#size-cells = <0>;
+					keep-power-in-suspend;
+					enable-sdio-wakeup;
+					non-removable;    /* non-removable is not a variable, the fact it is */
+								  /* listed is all that is used by driver  */
+					cap-power-off-card;
+					wlcore: wlcore@0 {
+						compatible = "ti,wlcore";
+						reg = <2>;
+						interrupt-parent = <&pioB>;
+						interrupts = <14 IRQ_TYPE_LEVEL_HIGH>;
+						// platform-quirks = <1>;
+					};
 				};
 			};
 			
@@ -137,7 +167,8 @@
 			};
 
 			usart0: serial@f001c000 {
-				//BT wilink
+				/* BT wilink */
+				uart-has-rtscts;
 				pinctrl-names = "default";
 				pinctrl-0 = <&pinctrl_usart0 &pinctrl_usart0_rts_cts>;
 				status = "okay";
@@ -210,12 +241,12 @@
 
 					pinctrl_bt_en: bt_en {
 						atmel,pins =
-							<AT91_PIOBE 27 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;
+							<AT91_PIOE 27 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;
 					};
 
 					pinctrl_wl_en: wl_en {
 						atmel,pins =
-							<AT91_PIOBE 28 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;
+							<AT91_PIOE 28 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;
 					};
 
 				};
@@ -282,6 +313,19 @@
 			status = "okay";
 		};
 	};
+
+    kim {
+            compatible = "kim";
+            //nshutdown_gpio = <&bt_en>;
+            nshutdown_gpio = <155>;
+            dev_name = "/dev/ttyS1";
+            flow_cntrl = <1>;
+            baud_rate = <3000000>;
+    };
+
+    btwilink {
+            compatible = "btwilink";
+    };
 
 	gpio_keys {
 		compatible = "gpio-keys";
