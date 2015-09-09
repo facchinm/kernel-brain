@@ -188,7 +188,8 @@
 				status = "okay";
 			};
 
-			ssc0: ssc@f0008000 {
+			ssc1: ssc@f800c000 {
+				pinctrl-0 = <&pinctrl_ssc1_rx>;
 				status = "okay";
 			};
 
@@ -391,7 +392,7 @@
 		atmel,model = "ADMP441 @ Brain";
 		atmel,audio-routing = "Capture", "RX";
 
-		atmel,ssc-controller = <&ssc0>;
+		atmel,ssc-controller = <&ssc1>;
 		atmel,audio-codec = <&ADMP441>;
 		status = "okay";
 	};
