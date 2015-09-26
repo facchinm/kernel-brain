@@ -64,6 +64,16 @@ config SND_ATMEL_SOC_SII9022
 	  Say Y if you want to add support for Atmel ASoC driver for boards using
 	  HDMI encoder sii9022.
 
+config SND_ATMEL_SOC_INMP441
+	tristate "Atmel ASoC driver for boards using I2S microphone INMP441"
+	depends on ARCH_AT91 && ATMEL_SSC && SND_ATMEL_SOC
+	select SND_ATMEL_SOC_SSC
+	select SND_ATMEL_SOC_DMA
+	select SND_SOC_INMP441
+	help
+	  Say Y if you want to add support for Atmel ASoC driver for boards using
+	  I2S microphone INMP441.
+
 config SND_AT91_SOC_AFEB9260
 	tristate "SoC Audio support for AFEB9260 board"
 	depends on ARCH_AT91 && ATMEL_SSC && ARCH_AT91 && MACH_AFEB9260 && SND_ATMEL_SOC

@@ -189,7 +189,6 @@
 			};
 
 			ssc1: ssc@f800c000 {
-				pinctrl-0 = <&pinctrl_ssc1_rx>;
 				status = "okay";
 			};
 
@@ -377,23 +376,17 @@
 
 	};
 
-	ADMP441: ADMP441 {
-		compatible = "atmel,alsa-soc-dummy";
-		i2s-fifo-routing =
-			<(0x80 | 0x0)
-			0
-			0
-			0>;
+	dmic: dmic {
+		compatible = "linux,dmic-codec";
 	};
 
 	sound {
-		compatible = "atmel,atmel-ssc-dai";
+		compatible = "atmel,asoc-inmp441";
 
 		atmel,model = "ADMP441 @ Brain";
-		atmel,audio-routing = "Capture", "RX";
+		atmel,audio-routing = "IN1L", "Mic";
 
 		atmel,ssc-controller = <&ssc1>;
-		atmel,audio-codec = <&ADMP441>;
-		status = "okay";
+		atmel,audio-codec = <&dmic>;
 	};
 };

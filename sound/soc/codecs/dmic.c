@@ -26,13 +26,15 @@
 #include <sound/pcm.h>
 #include <sound/soc.h>
 #include <sound/soc-dapm.h>
+#include <linux/of.h>
+#include <linux/of_device.h>
 
 static struct snd_soc_dai_driver dmic_dai = {
 	.name = "dmic-hifi",
 	.capture = {
 		.stream_name = "Capture",
 		.channels_min = 1,
-		.channels_max = 8,
+		.channels_max = 1,
 		.rates = SNDRV_PCM_RATE_CONTINUOUS,
 		.formats = SNDRV_PCM_FMTBIT_S32_LE
 			| SNDRV_PCM_FMTBIT_S24_LE
@@ -50,20 +52,11 @@ static const struct snd_soc_dapm_route intercon[] = {
 	{"DMIC AIF", NULL, "DMic"},
 };
 
-static int dmic_probe(struct snd_soc_codec *codec)
-{
-	struct snd_soc_dapm_context *dapm = &codec->dapm;
-
-	snd_soc_dapm_new_controls(dapm, dmic_dapm_widgets,
-				  ARRAY_SIZE(dmic_dapm_widgets));
-        snd_soc_dapm_add_routes(dapm, intercon, ARRAY_SIZE(intercon));
-	snd_soc_dapm_new_widgets(dapm);
-
-	return 0;
-}
-
 static struct snd_soc_codec_driver soc_dmic = {
-	.probe	= dmic_probe,
+	.dapm_widgets = dmic_dapm_widgets,
+	.num_dapm_widgets = ARRAY_SIZE(dmic_dapm_widgets),
+	.dapm_routes = intercon,
+	.num_dapm_routes = ARRAY_SIZE(intercon),
 };
 
 static int dmic_dev_probe(struct platform_device *pdev)
@@ -79,11 +72,18 @@ static int dmic_dev_remove(struct platform_device *pdev)
 }
 
 MODULE_ALIAS("platform:dmic-codec");
+#ifdef CONFIG_OF
+static const struct of_device_id dmic_dt_ids[] = {
+        { .compatible = "linux,dmic-codec", },
+        { }
+};
+MODULE_DEVICE_TABLE(of, dmic_dt_ids);
+#endif
 
 static struct platform_driver dmic_driver = {
 	.driver = {
 		.name = "dmic-codec",
-		.owner = THIS_MODULE,
+		.of_match_table = of_match_ptr(dmic_dt_ids),
 	},
 	.probe = dmic_dev_probe,
 	.remove = dmic_dev_remove,
@@ -91,6 +91,7 @@ static struct platform_driver dmic_driver = {
 
 module_platform_driver(dmic_driver);
 
+MODULE_ALIAS("platform:dmic-codec");
 MODULE_DESCRIPTION("Generic DMIC driver");
 MODULE_AUTHOR("Liam Girdwood <lrg@slimlogic.co.uk>");
 MODULE_LICENSE("GPL");
