@@ -189,6 +189,11 @@
 			};
 
 			ssc1: ssc@f800c000 {
+				dmas = <&dma1 2 AT91_DMA_CFG_PER_ID(3)>,
+				       <&dma1 2 AT91_DMA_CFG_PER_ID(4)>;
+				dma-names = "tx", "rx";
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_ssc1_tx &pinctrl_ssc1_rx>;
 				status = "okay";
 			};
 

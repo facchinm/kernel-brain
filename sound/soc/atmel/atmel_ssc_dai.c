@@ -776,9 +776,9 @@ static int asoc_ssc_init(struct device *dev)
 		goto err;
 	}
 
-	//if (ssc->pdata->use_dma)
-		//ret = atmel_pcm_dma_platform_register(dev);
-	//else
+	if (ssc->pdata->use_dma)
+		ret = atmel_pcm_dma_platform_register(dev);
+	else
 		ret = atmel_pcm_pdc_platform_register(dev);
 
 	if (ret) {

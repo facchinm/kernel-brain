@@ -93,12 +93,11 @@ static struct snd_soc_dai_link atmel_asoc_wm8904_dailink = {
 static struct snd_soc_card atmel_asoc_wm8904_card = {
 	.name = "atmel_asoc_inmp441",
 	.owner = THIS_MODULE,
-	.set_bias_level = atmel_set_bias_level,
 	.dai_link = &atmel_asoc_wm8904_dailink,
 	.num_links = 1,
 	.dapm_widgets = atmel_asoc_wm8904_dapm_widgets,
 	.num_dapm_widgets = ARRAY_SIZE(atmel_asoc_wm8904_dapm_widgets),
-	.fully_routed = true,
+	.fully_routed = false,
 };
 
 static int atmel_asoc_wm8904_dt_init(struct platform_device *pdev)
