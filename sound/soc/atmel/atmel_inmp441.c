@@ -34,25 +34,6 @@ static int atmel_asoc_wm8904_hw_params(struct snd_pcm_substream *substream,
 	struct snd_soc_dai *codec_dai = rtd->codec_dai;
 	int ret;
 
-	ret = snd_soc_dai_set_pll(codec_dai, WM8904_FLL_MCLK, WM8904_FLL_MCLK,
-		32768, params_rate(params) * 256);
-	if (ret < 0) {
-		pr_err("%s - failed to set wm8904 codec PLL.", __func__);
-		return ret;
-	}
-
-	/*
-	 * As here wm8904 use FLL output as its system clock
-	 * so calling set_sysclk won't care freq parameter
-	 * then we pass 0
-	 */
-	ret = snd_soc_dai_set_sysclk(codec_dai, WM8904_CLK_FLL,
-			0, SND_SOC_CLOCK_IN);
-	if (ret < 0) {
-		pr_err("%s -failed to set wm8904 SYSCLK\n", __func__);
-		return ret;
-	}
-
 	return 0;
 }
 

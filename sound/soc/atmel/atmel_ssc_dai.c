@@ -201,8 +201,8 @@ static int atmel_ssc_startup(struct snd_pcm_substream *substream,
 	struct atmel_pcm_dma_params *dma_params;
 	int dir, dir_mask;
 
-	pr_debug("atmel_ssc_startup: SSC_SR=0x%u\n",
-		ssc_readl(ssc_p->ssc->regs, SR));
+	//pr_warning("atmel_ssc_startup: SSC_SR=0x%u\n",
+	//	ssc_readl(ssc_p->ssc->regs, SR));
 
 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
 		dir = 0;
