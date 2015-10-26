@@ -625,6 +625,21 @@ static int atmel_ssc_hw_params(struct snd_pcm_substream *substream,
 		ssc_p->initialized = 1;
 	}
 
+        if (ssc_p->daifmt & SND_SOC_DAIFMT_CBS_CFS) {
+		int rate = 0;
+		/* Calculate the divisor in slave mode */
+
+		rate = clk_get_rate(ssc_p->ssc->clk) /
+			(2 * params_rate(params) * channels * bits);
+		ssc_p->cmr_div = rate;
+
+		pr_debug("%s: rate=%d, cmr_div=%d, clk=%lu \n",
+			__func__,
+			params_rate(params),
+			ssc_p->cmr_div,
+			clk_get_rate(ssc_p->ssc->clk));
+	}
+
 	/* set SSC clock mode register */
 	ssc_writel(ssc_p->ssc->regs, CMR, ssc_p->cmr_div);
 
